@@ -1,0 +1,44 @@
+Given an array with n integers, your task is to check if it could become non-decreasing by modifying at most 1 element.
+
+We define an array is non-decreasing if array[i] <= array[i + 1] holds for every i (1 <= i < n).
+
+Example 1:
+Input: [4,2,3]
+Output: True
+Explanation: You could modify the first 4 to 1 to get a non-decreasing array.
+Example 2:
+Input: [4,2,1]
+Output: False
+Explanation: You can't get a non-decreasing array by modify at most one element.
+Note: The n belongs to [1, 10,000].
+
+
+
+Idea:
+Find each downtick.
+
+If there are more than one downtick, return false;
+If you are at your first downtick, but it's one that cannot be erased by modifying only one endpoint of that downtick, then return false;
+What is a downtick that cannot be erased by modifying only one endpoint? If the downtick is at the indices i, i+1, then after modifying, we hope that all four of i-1, i, i+1, i+2 falls into the same range as delimited by i-1 and i+2. But we can only modify one of i, i+1, so if both i, i+1 are out of the range described above, then this downtick is beyond remedy, we return false; Otherwise, just increment count and move on.
+
+
+class Solution {
+public:
+    bool checkPossibility(vector<int>& nums) {
+        int n = nums.size();
+        int c = 0;
+        for(int i = 0; i < n-1; i++){
+            if(nums[i]>nums[i+1]){
+                c++;
+                if(c == 2){
+                    return false;
+                }
+                if(i-1 >=0 && i+2 < n &&nums[i-1]>nums[i+1] && nums[i+2]<nums[i]){
+                    return false;
+                }
+                
+            }
+        } 
+        return true;
+    }
+};

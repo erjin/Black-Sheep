@@ -1,0 +1,51 @@
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security system connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given a list of non-negative integers representing the amount of money of each house, determine the maximum amount of money you can rob tonight without alerting the police.
+
+Example 1:
+
+Input: [1,2,3,1]
+Output: 4
+Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+             Total amount you can rob = 1 + 3 = 4.
+Example 2:
+
+Input: [2,7,9,3,1]
+Output: 12
+Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
+             Total amount you can rob = 2 + 9 + 1 = 12.
+
+Idea:
+
+I use two variables respectively to store the maximum amount of money for both action: rob and not rob.
+
+To determine the maximum amount of money that we can rob from the first house to the current house, we need to consider two choice - rob this house or not:
+
+if we don't rob this house, the maximum amount of money is the bigger one between to rob and not to rob the previous house;
+
+if we rob this house, the maximum amount of money is the amount of money that we don't rob the previous house plus the money in the current house.
+
+That is,
+
+notRob[i+1] = max(notRob[i], Rob[i]);
+
+Rob[i+1] = notRob[i] + moneyInHouse[i+1]
+
+
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int i = 0;
+        int e = 0;
+        
+        for(int j = 0; j < nums.size(); j++){
+            int tmp = i;
+            i = e + nums[j];
+            e = max(tmp,e);
+        }
+        
+        return max(i,e);
+    }
+};
+
+

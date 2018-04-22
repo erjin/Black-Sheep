@@ -1,0 +1,50 @@
+Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
+
+Example 1:
+Input: 1->2->3->3->4->4->5
+Output: 1->2->5
+
+Example 2:
+Input: 1->1->1->2->3
+Output: 2->3
+
+Idea:
+
+用一个假头来看这个问题 把情况分成接下来的两个nodes 一样或者 不一样
+如果一样就用第一个值去比较剩下的值 直到找到不一样的拿假头的next连起那个不一样的 从不一样的值继续 
+如果不一样就确定了第一个值得唯一性 就把第一个值作为假头 从后一个不一样的值继续
+
+Solution:
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode fakehead(0);
+        fakehead.next = head;
+        ListNode* pre = &fakehead;
+        ListNode* p = head;
+        
+        while(p){
+            if(p->next && p->val == p->next->val){
+                while(p->next && p->val == p->next->val){
+                    p->next = p->next->next;   
+                }
+                p = p->next;      
+                pre->next = p;                
+            }else{
+                pre = p;
+                p = p -> next;
+            }
+        }
+        
+        return fakehead.next;
+    }
+};

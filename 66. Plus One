@@ -1,0 +1,100 @@
+Given a non-empty array of digits representing a non-negative integer, plus one to the integer.
+
+The digits are stored such that the most significant digit is at the head of the list, and each element in the array contain a single digit.
+
+You may assume the integer does not contain any leading zero, except the number 0 itself.
+
+Example 1:
+
+Input: [1,2,3]
+Output: [1,2,4]
+Explanation: The array represents the integer 123.
+Example 2:
+
+Input: [4,3,2,1]
+Output: [4,3,2,2]
+Explanation: The array represents the integer 4321
+
+Idea:
+无敌蠢 mmp
+
+
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int carry = 0;
+        int tmp = 0;
+        for(int i = digits.size()-1; i >= 0; i--){
+            
+            if(i == digits.size()-1){
+                tmp = digits[i] + 1 + carry;
+            }else{
+                tmp = digits[i] + carry;
+                carry = 0;
+            }
+            if(tmp >= 10 ){
+                digits[i] = tmp%10;
+                carry = 1;
+            }else{
+                digits[i] = tmp;
+            }
+            
+            if(i==0 && carry == 1){
+                vector<int> AB;
+                vector<int> A = {1};
+                AB.reserve(digits.size()+1 );
+                AB.insert( AB.end(), A.begin(), A.end() );
+                AB.insert( AB.end(), digits.begin(), digits.end() );
+
+                return  AB;
+            }
+        }
+        return digits;
+    }
+};
+
+高级聪明人的写法 一辈子进不了大公司了 呵呵
+
+class Solution {
+public:
+    vector<int> plusOne(vector<int> &digits) {
+        bool carry = true;
+        
+        for(int i=digits.size()-1; i >= 0 && carry; i--) {
+            carry = (++digits[i]%=10) == 0;
+        }
+
+        if(carry) {
+            digits.insert(digits.begin(), 1);
+        }
+    
+        return digits;
+    }
+};
+
+
+再聪明一点的
+
+void plusone(vector<int> &digits)
+{
+	int n = digits.size();
+	for (int i = n - 1; i >= 0; --i)
+	{
+		if (digits[i] == 9)
+		{
+			digits[i] = 0;
+		}
+		else
+		{
+			digits[i]++;
+			return;
+		}
+	}
+		digits[0] =1;
+		digits.push_back(0);
+		
+}
+
+难受
+
+

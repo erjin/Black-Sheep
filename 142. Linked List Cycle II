@@ -1,0 +1,38 @@
+Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+
+Idea:
+起点到entry point的距离 是 cycle 长度的倍数 所以找到 entry point 就从起点和重合点一起走 走到哪里重合 哪里就是entry point
+
+Solution:
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if (head == NULL || head->next == NULL)
+            return NULL;
+
+        ListNode *slow  = head;
+        ListNode *fast  = head;
+        ListNode *entry = head;
+
+        while (fast->next && fast->next->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+            if (slow == fast) {
+                while(slow != entry) {
+                    slow  = slow->next;
+                    entry = entry->next;
+                }
+                return entry;
+            }
+        }
+        return NULL;
+    }
+};
