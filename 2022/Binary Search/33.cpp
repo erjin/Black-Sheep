@@ -1,42 +1,37 @@
 // https://leetcode.com/problems/search-in-rotated-sorted-array/
-class Solution
-{
+class Solution {
 public:
-    int search(vector<int> &nums, int target)
-    {
-        if (nums.size() == 0)
-            return -1;
-
+    int search(vector<int>& nums, int target) {
         int start = 0;
-        int end = nums.size() - 1;
-        int mid = 0;
-        while (start + 1 < end)
-        {
-            int mid = start + (end - start) / 2;
-            if (nums[mid] == target)
+        int end = nums.size()-1;
+        
+        while(start+1<end){
+            int mid = start + (end-start)/2;
+            
+            if(nums[mid]==target){
                 return mid;
-
-            if (nums[start] < nums[mid])
-            {
-                if (nums[start] <= target && nums[mid] >= target)
-                    end = mid;
-                else
-                    start = mid;
             }
-            else
-            {
-                if (nums[end] >= target && nums[mid] <= target)
+            // Determine if the pivot point is on the left or the right
+            // Here the pivot point is on the right
+            if(nums[start] < nums[mid]){
+                // target is between start and mid, all good end = mid
+                if(nums[start] <= target && target <= nums[mid])
+                    end = mid;
+                else // give up the first half
+                    start = mid;
+            }else{
+            // Here the pivot point is on the left
+                if(nums[end] >= target && target >= nums[mid])
                     start = mid;
                 else
                     end = mid;
             }
         }
-
-        if (nums[start] == target)
+        if(nums[start]== target)
             return start;
-        else if (nums[end] == target)
+        if(nums[end]== target)
             return end;
-        else
-            return -1;
+        return -1;
+        
     }
 };
